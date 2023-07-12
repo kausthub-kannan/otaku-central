@@ -1,2 +1,2 @@
-# otaku-central
+# Otaku Central
 Exciting Wiki Fandom for Anime Otakus!
