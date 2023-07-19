@@ -1,6 +1,12 @@
 # Otaku Central
 Exciting Wiki Fandom for Anime Otakus!
 
+### Running the Server
+Following cmd in the terminal runs the server. Do establish the ```PORT``` variable in the ```.env``` file before running the server.
+```bat
+deno run --watch --allow-net --allow-env --allow-read main.ts
+```
+
 ### Note to Developers!  
 The server side uses ```Deno``` and ```Prisma``` hence requires a few files to be generated. Type down the below commands in your terminal  
 ```bat
