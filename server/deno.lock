@@ -184,5 +184,22 @@
     "https://deno.land/x/postgres@v0.17.0/query/transaction.ts": "8e75c3ce0aca97da7fe126e68f8e6c08d640e5c8d2016e62cee5c254bebe7fe8",
     "https://deno.land/x/postgres@v0.17.0/utils/deferred.ts": "dd94f2a57355355c47812b061a51b55263f72d24e9cb3fdb474c7519f4d61083",
     "https://deno.land/x/postgres@v0.17.0/utils/utils.ts": "19c3527ddd5c6c4c49ae36397120274c7f41f9d3cbf479cb36065d23329e9f90"
+  },
+  "npm": {
+    "specifiers": {
+      "prisma": "prisma@5.0.0"
+    },
+    "packages": {
+      "@prisma/engines@5.0.0": {
+        "integrity": "sha512-kyT/8fd0OpWmhAU5YnY7eP31brW1q1YrTGoblWrhQJDiN/1K+Z8S1kylcmtjqx5wsUGcP1HBWutayA/jtyt+sg==",
+        "dependencies": {}
+      },
+      "prisma@5.0.0": {
+        "integrity": "sha512-KYWk83Fhi1FH59jSpavAYTt2eoMVW9YKgu8ci0kuUnt6Dup5Qy47pcB4/TLmiPAbhGrxxSz7gsSnJcCmkyPANA==",
+        "dependencies": {
+          "@prisma/engines": "@prisma/engines@5.0.0"
+        }
+      }
+    }
   }
 }

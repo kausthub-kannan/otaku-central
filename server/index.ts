@@ -1,4 +1,4 @@
-import users from './apis/routes/users.ts'
+import users from "./routes/user.ts"
 
 export default {
     users

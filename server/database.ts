@@ -1,17 +1,14 @@
-import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
-import "https://deno.land/x/dotenv@v3.2.2/mod.ts";
+import { PrismaClient } from './generated/client/deno/edge.ts'
+import { config } from "https://deno.land/x/dotenv@v3.2.2/mod.ts";
 
-Deno.env.set('DB_URL', 'postgresql://kausthub:admin@1783@localhost:5432/otaku_central');
-const client = new Client(Deno.env.get('DB_URL'));
+const envVars = await config()
 
-try {
-  await client.connect();
-  console.log("Connected")
-} catch (e) {
-  if (e instanceof Deno.errors.ConnectionRefused) {
-    console.log(e.message);
-  }
-}
+const prisma = new PrismaClient({
+    datasources: {
+        db:{
+            url: envVars.DATABASE_URL
+        }
+    }
+})
 
-export default client
-
+export default prisma

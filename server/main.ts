@@ -1,5 +1,5 @@
 import { Application } from "https://deno.land/x/oak@v12.6.0/mod.ts";
-import routes from './index.ts'
+import routes from "./index.ts"
 
 const app = new Application();
 
@@ -11,7 +11,7 @@ app.use(async (ctx, nxt) => {
   console.log(` %c ${ctx.request.method} - ${ctx.request.url} - ${delta}ms`, 'color: #A2FF86')
 })
 
-//Connect the Routes
+// Connect the Routes
 app.use(routes.users.routes());
 app.use(routes.users.allowedMethods());
 
