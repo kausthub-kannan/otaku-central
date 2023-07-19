@@ -15,8 +15,8 @@ model bucket {
   completed Boolean?
   ongoing   Boolean?
   dropped   Boolean?
-  users     users    @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "bucket_id_from_user_id")
-  wiki      wiki?    @relation(fields: [wiki_id], references: [wiki_id], onDelete: NoAction, onUpdate: NoAction, map: "wiki_id_from_wiki_id_fk")
+  users     users    @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "bucket_id_from_user_id")
+  wiki      wiki?    @relation(fields: [wiki_id], references: [wiki_id], onDelete: Cascade, onUpdate: NoAction, map: "wiki_id_from_wiki_id_fk")
 }
 
 model chronicle {
@@ -24,7 +24,7 @@ model chronicle {
   texts        String?
   likes        Int?
   writer_id    String? @db.VarChar
-  users        users?  @relation(fields: [writer_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "writer_id_from_user_id_fk")
+  users        users?  @relation(fields: [writer_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "writer_id_from_user_id_fk")
 }
 
 model merch {
@@ -36,7 +36,7 @@ model merch {
   seller_id          String?  @db.VarChar
   image              String?  @db.VarChar
   avalibility_status Boolean?
-  users              users?   @relation(fields: [seller_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "seller_id_from_user_id_fk")
+  users              users?   @relation(fields: [seller_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "seller_id_from_user_id_fk")
 }
 
 model nexus {
@@ -46,7 +46,7 @@ model nexus {
   comment      String?
   upvotes      Int?
   chronicle_id String? @db.VarChar
-  users        users?  @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "nexus_user_id_from_user_id_fk")
+  users        users?  @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "nexus_user_id_from_user_id_fk")
 }
 
 model quizzes {
@@ -55,8 +55,8 @@ model quizzes {
   difficulty_lvl Int?
   created_date   DateTime? @db.Date
   anime_name     String?   @db.VarChar
-  wiki           wiki?     @relation(fields: [anime_name], references: [anime_name], onDelete: NoAction, onUpdate: NoAction, map: "anime_name_from_anime_name__fk")
-  users          users?    @relation(fields: [mod_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "mod_id_from_user_id_fk")
+  wiki           wiki?     @relation(fields: [anime_name], references: [anime_name], onDelete: Cascade, onUpdate: NoAction, map: "anime_name_from_anime_name__fk")
+  users          users?    @relation(fields: [mod_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "mod_id_from_user_id_fk")
 }
 
 model season {
@@ -65,7 +65,7 @@ model season {
   summary       String?
   poster        String? @db.VarChar
   episode_list  Int?
-  wiki          wiki?   @relation(fields: [wiki_id], references: [wiki_id], onDelete: NoAction, onUpdate: NoAction, map: "wiki_id_from_wiki_id_fk")
+  wiki          wiki?   @relation(fields: [wiki_id], references: [wiki_id], onDelete: Cascade, onUpdate: NoAction, map: "wiki_id_from_wiki_id_fk")
 }
 
 model users {

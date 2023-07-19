@@ -1,7 +1,11 @@
 import { Application } from "https://deno.land/x/oak@v12.6.0/mod.ts";
+import { config } from "https://deno.land/x/dotenv@v3.2.2/mod.ts";
 import routes from "./index.ts"
 
+const envVars = await config()
+
 const app = new Application();
+const port = envVars.PORT
 
 //Logger
 app.use(async (ctx, nxt) => {
@@ -15,4 +19,5 @@ app.use(async (ctx, nxt) => {
 app.use(routes.users.routes());
 app.use(routes.users.allowedMethods());
 
-await app.listen({ port: 8000 });
+console.log(`%cServer Started @ http://localhost:${port}`, 'color: #A2FF86')
+await app.listen({ port: parseInt(port) }); 
