@@ -2,18 +2,21 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma.service';
-import { users } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   /* POST - Create new user */
-  async create(data: CreateUserDto): Promise<users> {
+  async create(data: CreateUserDto): Promise<{ status: number; message: string }>  {
     try {
-      return this.prisma.users.create({
+      await this.prisma.users.create({
         data,
       });
+      return {
+        status: 201,
+        message: 'Wiki Created',
+      }
     } catch (err) {
       throw new Error(err);
     }
@@ -38,25 +41,33 @@ export class UsersService {
   }
 
   /* PUT - Update User Details */
-  update(id: string, data: UpdateUserDto) {
+  async update(id: string, data: UpdateUserDto): Promise<{ status: number; message: string }>  {
     try {
-      return this.prisma.users.update({
+      await this.prisma.users.update({
         where: { user_id: id },
         data: data,
       });
+      return {
+        status: 100,
+        message: 'User Updated',
+      };
     } catch (err) {
       throw new Error(err);
     }
   }
 
   /* DELETE - Delete User */
-  remove(id: string) {
+  async remove(id: string) {
     try {
-      return this.prisma.users.delete({
+      await this.prisma.users.delete({
         where: {
           user_id: id,
         },
       });
+      return {
+        status: 204,
+        message: 'User Deleted',
+      };
     } catch (err) {
       throw new Error(err);
     }
