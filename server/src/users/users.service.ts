@@ -7,9 +7,9 @@ import { PrismaService } from '../prisma.service';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  /* POST - Create new user */
   async create(data: CreateUserDto): Promise<{ status: number; message: string }>  {
     try {
+      // Creates the user instance
       await this.prisma.users.create({
         data,
       });
@@ -22,14 +22,13 @@ export class UsersService {
     }
   }
 
-  /* GET - Admin control */
   findAll() {
     return `Admin functions to be implemented.. please hold`;
   }
 
-  /* GET - Get User details */
   findOne(id: string) {
     try {
+      // Collects user data from user_id
       return this.prisma.users.findUnique({
         where: {
           user_id: id,
@@ -40,15 +39,15 @@ export class UsersService {
     }
   }
 
-  /* PUT - Update User Details */
-  async update(id: string, data: UpdateUserDto): Promise<{ status: number; message: string }>  {
+  async update(id: string, data: UpdateUserDto): Promise<{ statusCode: number; message: string }>  {
     try {
+      // Updates the user instance
       await this.prisma.users.update({
         where: { user_id: id },
         data: data,
       });
       return {
-        status: 100,
+        statusCode: 100,
         message: 'User Updated',
       };
     } catch (err) {
@@ -56,16 +55,16 @@ export class UsersService {
     }
   }
 
-  /* DELETE - Delete User */
   async remove(id: string) {
     try {
+      // Deletes the user instance
       await this.prisma.users.delete({
         where: {
           user_id: id,
         },
       });
       return {
-        status: 204,
+        statusCode: 204,
         message: 'User Deleted',
       };
     } catch (err) {

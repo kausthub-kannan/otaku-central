@@ -9,6 +9,7 @@ export class MerchService {
 
   async create(createMerchDto: CreateMerchDto) {
     try {
+      // Creates the merch instance
       await this.prisma.merch.create({
         data: createMerchDto,
       });
@@ -23,6 +24,7 @@ export class MerchService {
 
   findAll() {
     try {
+      // Collects all merch data
       return this.prisma.merch.findMany({
         skip: 2,
         take: 10,
@@ -35,13 +37,23 @@ export class MerchService {
     }
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     try {
-      return this.prisma.merch.findUnique({
+      // Collects merch data from merch_id
+      const merch_data = await this.prisma.merch.findUnique({
         where: {
           merch_id: id,
         },
       });
+
+      // Collects user data from seller_id
+      const user_data = await this.prisma.users.findUnique({
+        where: {  
+          user_id: merch_data.seller_id,
+        },
+      });
+      merch_data["username"] = user_data.username;
+      return merch_data
     } catch (error) {
       throw new Error(error);
     }
@@ -49,6 +61,7 @@ export class MerchService {
 
   async update(id: string, updateMerchDto: UpdateMerchDto) {
     try {
+      // Updates the merch instance
       await this.prisma.merch.update({
         where: {
           merch_id: id,
@@ -66,6 +79,7 @@ export class MerchService {
 
   async remove(id: string) {
     try{
+      // Deletes the merch instance
       await this.prisma.merch.delete({
         where: {
           merch_id: id,

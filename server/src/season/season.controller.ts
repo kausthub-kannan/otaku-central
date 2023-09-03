@@ -12,21 +12,29 @@ export class SeasonController {
     return this.seasonService.create(data);
   }
 
+  /*Params:
+    id: wiki_id*/
   @Get('all/:id')
   findAll(@Param('id') id: string) {
     return this.seasonService.findAll(id);
   }
 
+  /*Params:
+    id: season_id*/
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.seasonService.findOne(id);
   }
 
+  /*Params:
+    id: season_id*/
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSeasonDto: UpdateSeasonDto) {
     return this.seasonService.update(id, updateSeasonDto);
   }
 
+  /*Params:
+    id: season_id*/
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.seasonService.remove(id);

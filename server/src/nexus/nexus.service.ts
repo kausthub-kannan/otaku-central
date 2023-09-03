@@ -9,6 +9,7 @@ export class NexusService {
 
   async create(createNexusDto: CreateNexusDto) {
     try {
+      // Creates the nexus instance
       await this.prisma.nexus.create({
         data: createNexusDto, 
       });
@@ -23,6 +24,7 @@ export class NexusService {
 
   async findAll(id: string) {
     try {
+      // Collects all nexus data from chronicle_id
       const nexus_data = await this.prisma.nexus.findMany({
         skip: 0,
         take: 10,
@@ -30,6 +32,26 @@ export class NexusService {
           chronicle_id: id,
         }
       })
+
+      // Adds username and reply_username to each nexus
+      for (let i = 0; i < nexus_data.length; i++) {
+        // Collects user data from user_id
+        const user_data = await this.prisma.users.findUnique({
+          where: {
+            user_id: nexus_data[i].user_id,
+          },
+        });
+        nexus_data[i]["username"] = user_data.username;
+
+        // Collects user data from reply_to
+        const reply_user_data = await this.prisma.users.findUnique({
+          where: {
+            user_id: nexus_data[i].reply_to
+          },
+        });
+        nexus_data[i]["reply_username"] = reply_user_data.username;
+      }
+
       return nexus_data
     } catch (error) {
       throw new Error(error);
@@ -38,6 +60,7 @@ export class NexusService {
 
   async update(id: string, updateNexusDto: UpdateNexusDto) {
     try {
+      // Updates the nexus instance
       await this.prisma.nexus.updateMany({
         where: {
           nexus_id: id,
@@ -55,6 +78,7 @@ export class NexusService {
 
   async remove(id: string) {
     try {
+      // Deletes the nexus instance
       await this.prisma.nexus.delete({
         where: {
           nexus_id: id,

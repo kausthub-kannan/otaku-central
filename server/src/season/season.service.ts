@@ -8,6 +8,7 @@ export class SeasonService {
   constructor(private prisma: PrismaService) {}
   async create(data: CreateSeasonDto) {
     try {
+      // Creates the season instance
       await this.prisma.season.create({
         data,
       });
@@ -22,30 +23,47 @@ export class SeasonService {
 
   async findAll(id: string) {
     try {
+      // Collects all seasons data from wiki_id
       const season_data = await this.prisma.season.findMany({
         where: {
           wiki_id: id,
         },
       });
+
+      // Collects wiki data from wiki_id
       const wiki_data = await this.prisma.wiki.findUnique({
         where: {
           wiki_id: id,
         },
       });
-      console.log(wiki_data);
-      return {season_data: season_data, wiki_name: wiki_data.anime_name};
+
+      // Adds wiki_name to each season
+      for (let i = 0; i < season_data.length; i++) {
+        season_data[i]["wiki_name"] = wiki_data.anime_name;
+      }
+      return season_data
     } catch (err) {
       throw new Error(err);
     }
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     try {
-      return this.prisma.season.findUnique({
+      // Collects season data from season_id
+      const season_data =  await this.prisma.season.findUnique({
         where: {
           season_id: id,
         },
       });
+
+      // Collects wiki data from wiki_id (derived from season_data)
+      const wiki_data = await this.prisma.wiki.findUnique({
+        where: {
+          wiki_id: season_data.wiki_id,
+        },
+      });
+      season_data["wiki_name"] = wiki_data.anime_name;
+      return season_data;
     } catch (err) {
       throw new Error(err);
     }
@@ -53,7 +71,7 @@ export class SeasonService {
 
   async update(id: string, data: UpdateSeasonDto) {
     try {
-
+      // Updates season data from season_id
       await this.prisma.season.update({
         where: {
           season_id: id,
@@ -71,6 +89,7 @@ export class SeasonService {
 
   async remove(id: string) {
     try {
+      // Deletes season data from season_id
       await this.prisma.season.delete({
         where: {
           season_id: id,
