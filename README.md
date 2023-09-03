@@ -1,8 +1,11 @@
 # Otaku Central
 Exciting Wiki Fandom for Anime Otakus!
 
+### Data Model
+<a href="https://ibb.co/R2BQWX1"><img src="https://i.ibb.co/31MSHxw/data-model.png" alt="data-model" border="0"></a>
+
 ### Running the Server
-Following cmd in the terminal runs the server. Do establish the ```PORT``` variable in the ```.env``` file before 
+Following cmd in the terminal runs the server. To establish the ```PORT``` variable in the ```.env``` file before 
 running the server.
 ```bash
  $ npm run start:dev -- -b swc
