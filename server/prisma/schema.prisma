@@ -31,7 +31,9 @@ model chronicle {
   texts        String?
   likes        Int?
   writer_id    String? @db.Uuid
+  title        String?
   users        users?  @relation(fields: [writer_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "writer_id_from_user_id_fk")
+  nexus        nexus[]
 }
 
 model merch {
@@ -48,22 +50,15 @@ model merch {
 }
 
 model nexus {
-  nexus_id     String  @id(map: "nexus_id_pk") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id      String? @db.Uuid
-  reply_to     String? @db.Uuid
-  comment      String?
-  upvotes      Int?
-  chronicle_id String? @db.Uuid
-}
-
-model quizzes {
-  quiz_id        String    @id(map: "quiz_id_pk") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  mod_id         String?   @db.Uuid
-  difficulty_lvl Int?
-  created_date   DateTime? @db.Date
-  anime_name     String?   @db.VarChar
-  wiki           wiki?     @relation(fields: [anime_name], references: [anime_name], onDelete: Cascade, onUpdate: NoAction)
-  users          users?    @relation(fields: [mod_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+  nexus_id                    String     @id(map: "nexus_id_pk") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id                     String?    @db.Uuid
+  reply_to                    String?    @db.Uuid
+  comment                     String?
+  upvotes                     Int?
+  chronicle_id                String?    @db.Uuid
+  chronicle                   chronicle? @relation(fields: [chronicle_id], references: [chronicle_id], onDelete: Cascade, onUpdate: NoAction)
+  users_nexus_reply_toTousers users?     @relation("nexus_reply_toTousers", fields: [reply_to], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
+  users_nexus_user_idTousers  users?     @relation("nexus_user_idTousers", fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model season {
@@ -77,31 +72,31 @@ model season {
 }
 
 model users {
-  email_id    String      @db.VarChar
-  guild       String      @db.VarChar
-  user_id     String      @id(map: "user_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  username    String?     @db.VarChar
-  joined_date DateTime?   @db.Date
-  nani        Int?
-  avatar      String?
-  bucket      bucket[]
-  cart        cart[]
-  chronicle   chronicle[]
-  merch       merch[]
-  quizzes     quizzes[]
-  wiki        wiki[]
+  email_id                    String      @db.VarChar
+  guild                       String      @db.VarChar
+  user_id                     String      @id(map: "user_id") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  username                    String?     @db.VarChar
+  joined_date                 DateTime?   @db.Date
+  nani                        Int?
+  avatar                      String?
+  bucket                      bucket[]
+  cart                        cart[]
+  chronicle                   chronicle[]
+  merch                       merch[]
+  nexus_nexus_reply_toTousers nexus[]     @relation("nexus_reply_toTousers")
+  nexus_nexus_user_idTousers  nexus[]     @relation("nexus_user_idTousers")
+  wiki                        wiki[]
 }
 
 model wiki {
-  wiki_id    String    @id(map: "wiki_id_pk") @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  anime_name String?   @unique(map: "anime_name_uk") @db.VarChar
-  poster     String?   @db.VarChar
+  wiki_id    String   @id(map: "wiki_id_pk") @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  anime_name String?  @unique(map: "anime_name_uk") @db.VarChar
+  poster     String?  @db.VarChar
   summary    String?
-  status     String?   @db.VarChar
-  rating     Float?    @db.Real
-  genre      String[]  @db.VarChar
-  mod_id     String?   @db.Uuid
-  quizzes    quizzes[]
+  status     String?  @db.VarChar
+  rating     Float?   @db.Real
+  genre      String[] @db.VarChar
+  mod_id     String?  @db.Uuid
   season     season[]
-  users      users?    @relation(fields: [mod_id], references: [user_id], onUpdate: NoAction)
+  users      users?   @relation(fields: [mod_id], references: [user_id], onUpdate: NoAction)
 }
